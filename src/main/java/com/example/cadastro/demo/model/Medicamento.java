@@ -24,7 +24,7 @@ public class Medicamento {
     private BigDecimal precoVenda;
     private LocalDate dataValidade;
 
-    @ManyToOne
+    @ManyToOne     // Login é o chefe e ta mandando no Medicamento, vinculado
     @JoinColumn(name = "login_id")
     private Login login;
 }

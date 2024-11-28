@@ -4,8 +4,8 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
-@Entity
+@Data             // Data = Getter, Setter, Construtores, Hashequals
+@Entity           // Login é principal
 @NoArgsConstructor // nao precisa passar as variave no construtor
 public class Login {
 
@@ -15,4 +15,5 @@ public class Login {
 
     private String nome;
     private String senha;
+
 }

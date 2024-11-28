@@ -4,19 +4,24 @@ package com.example.cadastro.demo.Controller;
 import com.example.cadastro.demo.Service.LoginService;
 import com.example.cadastro.demo.model.Login;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.List;    // Controller é a pasta onde faço o spring andar
 
-@RestController
-@RequestMapping("/api/login")
+@RestController    // comando os controles no geral e suporte
+@RequestMapping("/api/login")    // vinculado rest
 public class LoginController {
 
-    @Autowired
+    @Autowired    // vinculado rest
     private LoginService loginService;
 
-    @GetMapping("/listar")
-    public List<Login> listarTodos() {
-        return loginService.listarTodos();
+    @GetMapping("/login")    // vinculado rest
+    public ResponseEntity<String> login(@RequestParam String nome, @RequestParam String senha) {
+        if (loginService.loginAutorizado(nome, senha)) {
+            return ResponseEntity.ok("Acesso Liberado, Bem-Vindo");
+        } else  {
+            return ResponseEntity.status(403).body("Acesso Negado, Login ou Senha inválido tente novamente");
+        }
     }
 }

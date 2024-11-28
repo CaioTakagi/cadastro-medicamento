@@ -15,22 +15,22 @@ public class MedicamentoController {
     @Autowired
     private MedicamentoService medicamentosService;
 
-    @GetMapping
+    @GetMapping   // Get buscar os items
     public List<Medicamento> listarMedicamento() {
         return medicamentosService.listarTodos();
     }
 
-    @PostMapping
+    @PostMapping  // Postar os itens
     public Medicamento SalvarMedicamento(@RequestBody Medicamento medicamento) {
         return medicamentosService.salvarMedicamento(medicamento);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{id}") // Deeletar no banco de daodos
     public void deletarMedicamento(@PathVariable Long id) {
         medicamentosService.deletarMedicamento(id);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{id}") // Atualizar
     public Medicamento atualizarMedicamento(@PathVariable Long id, @RequestBody Medicamento medicamento) {
         return medicamentosService.atualizarMedicamento(id, medicamento);
     }

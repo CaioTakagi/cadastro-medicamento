@@ -3,6 +3,11 @@
  - 6º Semestre 2024 - Matutino
  - Universidade Anhembi Morumbi - Paulista 1
 
+# Integrantes do Grupo
+
+- Caio Takagi Massutani - RA: 12522113076
+- Guilherme Henrique Canzi - RA: 12522124861
+
 # Projeto Login + Cadastro de Medicamentos
  - Projeto de cadastro com login, pela criação de Java Spring para implementações dos métodos CRUD.
  - Utilização da linguagem Java.
@@ -18,6 +23,7 @@
 - MySql Driver
 - Lombok
 - Spring Data JPA
+- H2, banco de dados em memória
 
 ## Banco de Dados e Testes Unitários 
 
@@ -26,7 +32,3 @@
 
 ![img](/img/a3img.jpg)
 
-# Integrantes do Grupo
-
- - Caio Takagi Massutani - RA: 12522113076
- - Guilherme Henrique Canzi - RA: 12522124861

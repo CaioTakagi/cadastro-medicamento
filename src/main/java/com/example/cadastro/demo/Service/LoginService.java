@@ -14,7 +14,15 @@ public class LoginService {
     @Autowired
     private LoginRepository loginRepository;
 
-   public List<Login> listarTodos() {
+   private static final String ALLOWED_USERNAME = "DrogaMil";
+   private static final String ALLOWED_PASSWORD = "123";
+
+   public List<Login> listarTodos() { //comando para listar todos logins
        return loginRepository.findAll();
    }
+
+   public boolean loginAutorizado(String nome, String senha) {
+       return ALLOWED_USERNAME.equals(nome) && ALLOWED_PASSWORD.equals(senha);
+   }
+
 }
