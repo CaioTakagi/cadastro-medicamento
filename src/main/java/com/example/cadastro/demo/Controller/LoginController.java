@@ -1,27 +1,36 @@
 package com.example.cadastro.demo.Controller;
 
-
 import com.example.cadastro.demo.Service.LoginService;
-import com.example.cadastro.demo.model.Login;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;    // Controller é a pasta onde faço o spring andar
-
-@RestController    // comando os controles no geral e suporte
-@RequestMapping("/api/login")    // vinculado rest
+@Controller // Alterado de @RestController para @Controller para suportar páginas HTML
+@RequestMapping("/api")
 public class LoginController {
 
-    @Autowired    // vinculado rest
+    @Autowired
     private LoginService loginService;
 
-    @GetMapping("/login")    // vinculado rest
-    public ResponseEntity<String> login(@RequestParam String nome, @RequestParam String senha) {
+    // Renderizar a página de login (GET)
+    @GetMapping("/login")
+    public String mostrarPaginaDeLogin() {
+        return "login"; // Nome do arquivo HTML (src/main/resources/templates/login.html)
+    }
+
+    // Validar o login (POST)
+    @PostMapping("/login")
+    public String validarLogin(@RequestParam String nome,
+                               @RequestParam String senha,
+                               Model model) {
         if (loginService.loginAutorizado(nome, senha)) {
-            return ResponseEntity.ok("Acesso Liberado, Bem-Vindo");
-        } else  {
-            return ResponseEntity.status(403).body("Acesso Negado, Login ou Senha inválido tente novamente");
+            model.addAttribute("mensagem", "Acesso Liberado, Bem-Vindo ");
+            return "redirect:/medicamentos"; // Substitua por um HTML que represente o sucesso
+        } else {
+            model.addAttribute("erro", "Acesso Negado, Tente novamente.");
+            return "login"; // Retorna à página de login com mensagem de erro
         }
     }
 }

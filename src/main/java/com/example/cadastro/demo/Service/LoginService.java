@@ -14,7 +14,7 @@ public class LoginService {
     @Autowired
     private LoginRepository loginRepository;
 
-   private static final String ALLOWED_USERNAME = "DrogaMil";
+   private static final String ALLOWED_USERNAME = "a";
    private static final String ALLOWED_PASSWORD = "123";
 
    public List<Login> listarTodos() { //comando para listar todos logins

@@ -2,6 +2,7 @@ package com.example.cadastro.demo.Service;
 
 import com.example.cadastro.demo.model.Medicamento;
 import com.example.cadastro.demo.repository.MedicamentoRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +26,7 @@ public class MedicamentoService {
     public void deletarMedicamento(Long id) {
         medicamentoRepository.deleteById(id);
     }
+
 
     public Medicamento atualizarMedicamento(Long id, Medicamento medicamentoAtualizado) {
         Optional<Medicamento> optionalMedicamento = medicamentoRepository.findById(id);

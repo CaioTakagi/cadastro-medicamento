@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Cadastro de Medicamentos</title>
+</head>
+<body>
+<h1 th:text="${medicamento.id == null ? 'Novo Medicamento' : 'Editar Medicamento'}"></h1>
+<form th:action="@{/medicamentos}" th:object="${medicamento}" method="post">
+    <label for="nome">Nome:</label>
+    <input type="text" id="nome" th:field="*{nome}" required>
+    <br>
+    <label for="fabricante">Fabricante:</label>
+    <input type="text" id="fabricante" th:field="*{fabricante}" required>
+    <br>
+    <label for="descricao">Descrição:</label>
+    <input type="text" id="descricao" th:field="*{descricao}">
+    <br>
+    <label for="quantidade">Quantidade:</label>
+    <input type="number" id="quantidade" th:field="*{quantidade}" required>
+    <br>
+    <label for="precoCusto">Preço Custo:</label>
+    <input type="text" id="precoCusto" th:field="*{precoCusto}" required>
+    <br>
+    <label for="precoVenda">Preço Venda:</label>
+    <input type="text" id="precoVenda" th:field="*{precoVenda}" required>
+    <br>
+    <label for="dataValidade">Data Validade:</label>
+    <input type="date" id="dataValidade" th:field="*{dataValidade}" required>
+    <br>
+    <button type="submit">Salvar</button>
+</form>
+<a th:href="@{/medicamentos}">Voltar</a>
+</body>
+</html>
