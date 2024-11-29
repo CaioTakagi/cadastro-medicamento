@@ -3,41 +3,73 @@
 <head>
     <link rel="stylesheet" th:href="@{/css/stylesMedicamentos.css}">
     <title>Lista de Medicamentos</title>
-
 </head>
 <body>
-    <h1>Medicamentos</h1>
-    <a href="/medicamentos/novo" class="adicionar">Adicionar Medicamento</a>
-    <table border="1">
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Nome</th>
-            <th>Fabricante</th>
-            <th>Descrição</th>
-            <th>Quantidade</th>
-            <th>Preço Custo</th>
-            <th>Preço Venda</th>
-            <th>Data Validade</th>
-            <th>Opções</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="medicamento : ${medicamentos}">
-            <td th:text="${medicamento.id}"></td>
-            <td th:text="${medicamento.nome}"></td>
-            <td th:text="${medicamento.fabricante}"></td>
-            <td th:text="${medicamento.descricao}"></td>
-            <td th:text="${medicamento.quantidade}"></td>
-            <td th:text="${medicamento.precoCusto}"></td>
-            <td th:text="${medicamento.precoVenda}"></td>
-            <td th:text="${medicamento.dataValidade}"></td>
-            <td>
-                <a th:href="@{/medicamentos/editar/{id}(id=${medicamento.id})}">Editar</a>
-                <a th:href="@{/medicamentos/deletar/{id}(id=${medicamento.id})}" class="deletar">Deletar</a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-    </body>
+<h1>Estoque</h1>
+<a href="/medicamentos/novo" class="adicionar">Adicionar Medicamento</a>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>
+            ID
+            <a href="/medicamentos/crescente">↑</a>
+            <a href="/medicamentos/decrescente">↓</a>
+        </th>
+        <th>
+            Nome
+            <a href="/medicamentos/nome/crescente">↑</a>
+            <a href="/medicamentos/nome/decrescente">↓</a>
+        </th>
+        <th>
+            Fabricante
+            <a href="/medicamentos/fabricante/crescente">↑</a>
+            <a href="/medicamentos/fabricante/decrescente">↓</a>
+        </th>
+        <th>
+            Descrição
+            <a href="/medicamentos/descricao/crescente">↑</a>
+            <a href="/medicamentos/descricao/decrescente">↓</a>
+        </th>
+        <th>
+            Quantidade
+            <a href="/medicamentos/quantidade/crescente">↑</a>
+            <a href="/medicamentos/quantidade/decrescente">↓</a>
+        </th>
+        <th>
+            Preço Custo
+            <a href="/medicamentos/preco-custo/crescente">↑</a>
+            <a href="/medicamentos/preco-custo/decrescente">↓</a>
+        </th>
+        <th>
+            Preço Venda
+            <a href="/medicamentos/preco-venda/crescente">↑</a>
+            <a href="/medicamentos/preco-venda/decrescente">↓</a>
+        </th>
+        <th>
+            Data Validade
+            <a href="/medicamentos/data-validade/crescente">↑</a>
+            <a href="/medicamentos/data-validade/decrescente">↓</a>
+        </th>
+        <th>Opções</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="medicamento : ${medicamentos}">
+        <td th:text="${medicamento.id}"></td>
+        <td th:text="${medicamento.nome}"></td>
+        <td th:text="${medicamento.fabricante}"></td>
+        <td th:text="${medicamento.descricao}"></td>
+        <td th:text="${medicamento.quantidade}"></td>
+        <td th:text="${medicamento.precoCusto}"></td>
+        <td th:text="${medicamento.precoVenda}"></td>
+        <td th:text="${medicamento.dataValidade}"></td>
+        <td>
+            <a th:href="@{/medicamentos/editar/{id}(id=${medicamento.id})}">Editar</a>
+            <a th:href="@{/medicamentos/deletar/{id}(id=${medicamento.id})}" class="deletar">Deletar</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
 </html>
