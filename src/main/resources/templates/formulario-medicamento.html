@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <link rel="stylesheet" th:href="@{/css/stylesFormulario.css}">
     <title>Cadastro de Medicamentos</title>
 </head>
 <body>
@@ -27,8 +28,12 @@
     <label for="dataValidade">Data Validade:</label>
     <input type="date" id="dataValidade" th:field="*{dataValidade}" required>
     <br>
-    <button type="submit">Salvar</button>
+    <div class="button-container">
+        <button type="submit">Salvar</button>
+        <a th:href="@{/medicamentos}">Voltar</a>
+    </div>
 </form>
-<a th:href="@{/medicamentos}">Voltar</a>
+
+</div>
 </body>
 </html>
