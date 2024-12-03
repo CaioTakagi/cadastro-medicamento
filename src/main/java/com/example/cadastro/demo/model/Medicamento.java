@@ -3,6 +3,7 @@ package com.example.cadastro.demo.model;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -28,4 +29,5 @@ public class Medicamento {
     @ManyToOne     // Login é o chefe e ta mandando no Medicamento, vinculado
     @JoinColumn(name = "login_id")
     private Login login;
+
 }

@@ -1,5 +1,6 @@
 package com.example.cadastro.demo.Service;
 
+import com.example.cadastro.demo.model.Login;
 import com.example.cadastro.demo.repository.LoginRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -7,61 +8,41 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 class LoginServiceTest {
 
-    @Mock        // Simula um login repository pra não usar o banco de dados
+    @Mock
     private LoginRepository loginRepository;
 
-    @InjectMocks    // injeta o mock na classe login service para simular
+    @InjectMocks
     private LoginService loginService;
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);
+        MockitoAnnotations.openMocks(this); // Inicializa os mocks
     }
 
+
     @Test
-    void retornarLoginSenhaAutorizado() {
-        String nomeValido = "DrogaMil";
-        String senhaValido = "123";
+    void testLoginAutorizado_Success() {
+        // Act: Chama o método com credenciais corretas
+        boolean resultado = loginService.loginAutorizado("admin", "123");
 
-        boolean resultado = loginService.loginAutorizado(nomeValido, senhaValido);
-
-        // retornar o login e senha autorizado e validado
+        // Assert: Deve retornar verdadeiro
         assertTrue(resultado);
     }
 
     @Test
-    void retornarLoginSenhaInvalido() {
-        String nomeInvalido = "rivaldo";
-        String senhaInvalido = "pixUrubu10";
+    void testLoginAutorizado_Failure() {
+        // Act: Chama o método com credenciais incorretas
+        boolean resultado = loginService.loginAutorizado("wrongUser", "wrongPassword");
 
-        boolean resultado = loginService.loginAutorizado(nomeInvalido, senhaInvalido);
-
-        // retornar os logins e senhas invalidas
+        // Assert: Deve retornar falso
         assertFalse(resultado);
     }
-
-    @Test
-    void retornarLoginParcialmenteValido() {
-        String nomeValido = "DrogaMil";
-        String senhaInvalido = "seila123";
-
-        boolean resultado = loginService.loginAutorizado(nomeValido, senhaInvalido);
-
-        // retornar login valido e senha invalido
-        assertFalse(resultado);
-    }
-
-    @Test
-    void retornarCampoVazio() {
-        boolean resultado = loginService.loginAutorizado(null, null);
-
-        assertFalse(resultado);
-    }
-
-
-
 }

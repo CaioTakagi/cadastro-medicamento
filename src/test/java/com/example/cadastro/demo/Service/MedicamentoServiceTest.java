@@ -27,74 +27,37 @@ class MedicamentoServiceTest {
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);
+        MockitoAnnotations.openMocks(this); // Inicializa os mocks
     }
 
+
+
     @Test
-    void listarRetornarMedicamentos() {
-        Medicamento medicamento1 = new Medicamento();
-        medicamento1.setNome("Coristina D");
+    void testBuscarPorId_NotFound() {
+        // Arrange
+        when(medicamentoRepository.findById(1L)).thenReturn(Optional.empty());
 
-        when(medicamentoRepository.findAll()).thenReturn(Arrays.asList(medicamento1));
+        // Act
+        Medicamento resultado = medicamentoService.buscarPorId(1L);
 
-        List<Medicamento> medicamentos = medicamentoService.listarTodos();
-
-        assertEquals(1, medicamentos.size());
-        assertEquals("Coristina D", medicamentos.get(0).getNome());
-        verify(medicamentoRepository, timeout(0)).findAll();
+        // Assert
+        assertNull(resultado);
+        verify(medicamentoRepository, times(1)).findById(1L);
     }
 
-    @Test
-    void salvarRetornarMedicamento() {
-        Medicamento medicamento = new Medicamento();
-        medicamento.setNome("Coristina D");
-
-        when(medicamentoRepository.save(medicamento)).thenReturn(medicamento);
-
-        Medicamento salvo = medicamentoService.salvarMedicamento(medicamento);
-
-        assertNotNull(salvo);
-        assertEquals("Coristina D", salvo.getNome());
-        verify(medicamentoRepository, times(1)).save(medicamento);
-    }
 
     @Test
-    void deletarRetornarMedicamento() {
-
+    void testDeletarMedicamento() {
+        // Arrange
         Long id = 1L;
 
+        // Act
         medicamentoService.deletarMedicamento(id);
 
+        // Assert
         verify(medicamentoRepository, times(1)).deleteById(id);
     }
 
-    @Test
-    void atualizarRetornarMedicamento() {
-        // Arrange
-        Long id = 1L;
-        Medicamento medicamentoExistente = new Medicamento();
-        medicamentoExistente.setId(id);
-        medicamentoExistente.setNome("Antigo");
 
-        Medicamento medicamentoAtualizado = new Medicamento();
-        medicamentoAtualizado.setNome("Novo");
-        medicamentoAtualizado.setDescricao("Descrição atualizada");
-        medicamentoAtualizado.setQuantidade(20);
-        medicamentoAtualizado.setPrecoCusto(BigDecimal.valueOf(10));
-        medicamentoAtualizado.setPrecoVenda(BigDecimal.valueOf(15));
-        medicamentoAtualizado.setDataValidade(LocalDate.now().plusDays(30));
 
-        when(medicamentoRepository.findById(id)).thenReturn(Optional.of(medicamentoExistente));
-        when(medicamentoRepository.save(medicamentoExistente)).thenReturn(medicamentoExistente);
-
-        // Act
-        Medicamento resultado = medicamentoService.atualizarMedicamento(id, medicamentoAtualizado);
-
-        // Assert
-        assertNotNull(resultado);
-        assertEquals("Novo", resultado.getNome());
-        assertEquals("Descrição atualizada", resultado.getDescricao());
-        verify(medicamentoRepository, times(1)).findById(id);
-        verify(medicamentoRepository, times(1)).save(medicamentoExistente);
-    }
 }

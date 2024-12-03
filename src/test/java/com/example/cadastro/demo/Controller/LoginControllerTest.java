@@ -2,49 +2,53 @@ package com.example.cadastro.demo.Controller;
 
 import com.example.cadastro.demo.Service.LoginService;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.RequestBuilder;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest(LoginController.class)
-class LoginControllerTest {
+@WebMvcTest(LoginController.class) // Indica que estamos testando o controlador
+public class LoginControllerTest {
 
     @Autowired
-    private MockMvc mockMvc;
+    private MockMvc mockMvc; // Simula as requisições HTTP
 
     @MockBean
-    private LoginService loginService;
+    private LoginService loginService; // Mock para a camada de serviço
 
     @Test
-    void loginSucesso() throws Exception {
-        when(loginService.loginAutorizado("usuario", "senha")).thenReturn(true);
-
-        mockMvc.perform(get("/api/login/login")
-                .param("nome", "usuario")
-                .param("senha", "senha"))
-                .andExpect(status().isOk())
-                .andExpect(content().string("Acesso liberado, bem vindo"));
-
+    public void deveRetornarPaginaDeLogin() throws Exception {
+        mockMvc.perform(get("/api/login"))
+                .andExpect(status().isOk()) // Verifica se o status é 200 (OK)
+                .andExpect(view().name("login")); // Verifica se a view retornada é "login"
     }
 
     @Test
-    void testLoginComFalha() throws Exception {
-        when(loginService.loginAutorizado("usuario", "senhaErrada")).thenReturn(false);
+    public void deveValidarLoginComSucesso() throws Exception {
+        // Configurando o comportamento do mock
+        Mockito.when(loginService.loginAutorizado("admin", "123")).thenReturn(true);
 
-        mockMvc.perform(get("/api/login/login")
-                        .param("nome", "usuario")
-                        .param("senha", "senhaErrada"))
-                .andExpect(status().isForbidden())
-                .andExpect(content().string("Acesso Negado. Verifique suas credenciais."));
+        mockMvc.perform(post("/api/login")
+                        .param("nome", "admin")
+                        .param("senha", "123"))
+                .andExpect(status().is3xxRedirection()) // Verifica redirecionamento
+                .andExpect(redirectedUrl("/medicamentos")); // Verifica URL de redirecionamento
     }
 
+    @Test
+    public void deveFalharNaValidacaoDeLogin() throws Exception {
+        // Configurando o comportamento do mock
+        Mockito.when(loginService.loginAutorizado("admin", "senhaIncorreta")).thenReturn(false);
 
+        mockMvc.perform(post("/api/login")
+                        .param("nome", "admin")
+                        .param("senha", "senhaIncorreta"))
+                .andExpect(status().isOk()) // Página de login é carregada novamente
+                .andExpect(view().name("login")) // Verifica se retorna à view "login"
+                .andExpect(model().attributeExists("erro")); // Verifica se o modelo contém o atributo "erro"
+    }
 }

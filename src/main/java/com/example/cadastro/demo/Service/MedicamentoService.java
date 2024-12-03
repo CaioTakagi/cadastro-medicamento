@@ -3,12 +3,10 @@ package com.example.cadastro.demo.Service;
 import com.example.cadastro.demo.model.Medicamento;
 import com.example.cadastro.demo.repository.MedicamentoRepository;
 import jakarta.transaction.Transactional;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class MedicamentoService {
@@ -33,17 +31,26 @@ public class MedicamentoService {
 
     }
 
+    @Transactional
     public Medicamento atualizarMedicamento(Long id, Medicamento medicamentoAtualizado) {
-        if (!medicamentoRepository.existsById(id)) {
-            throw new RuntimeException("Medicamento não encontrado");
-        }
+        // Buscar o medicamento existente
+        Medicamento medicamentoExistente = medicamentoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Medicamento não encontrado"));
 
-        medicamentoRepository.deleteById(id);
+        // Atualizar os campos
+        medicamentoExistente.setId(medicamentoExistente.getId());
+        medicamentoExistente.setNome(medicamentoAtualizado.getNome());
+        medicamentoExistente.setFabricante(medicamentoAtualizado.getFabricante());
+        medicamentoExistente.setDescricao(medicamentoAtualizado.getDescricao());
+        medicamentoExistente.setQuantidade(medicamentoAtualizado.getQuantidade());
+        medicamentoExistente.setPrecoCusto(medicamentoAtualizado.getPrecoCusto());
+        medicamentoExistente.setPrecoVenda(medicamentoAtualizado.getPrecoVenda());
+        medicamentoExistente.setDataValidade(medicamentoAtualizado.getDataValidade());
 
-        medicamentoAtualizado.setId(id);
-
-        return medicamentoRepository.save(medicamentoAtualizado);
+        // O objeto gerenciado será automaticamente atualizado na transação
+        return medicamentoExistente;
     }
+
 
 
 

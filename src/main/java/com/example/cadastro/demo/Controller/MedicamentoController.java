@@ -58,11 +58,10 @@ public class MedicamentoController {
 
     @PostMapping("/editar/{id}")
     public String atualizarMedicamento(@PathVariable Long id, @ModelAttribute Medicamento medicamentoAtualizado) {
+        medicamentoAtualizado.setId(id); // Certifique-se de que o ID seja mantido
         medicamentosService.atualizarMedicamento(id, medicamentoAtualizado);
         return "redirect:/medicamentos";
     }
-
-
 
     @GetMapping("/crescente")
     public String listarMedicamentosEmOrdemCrescente(Model model) {
